@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <p>This is home view</p>
+  <p>This is loggin view</p>
 </template>
 
 <style scoped>
