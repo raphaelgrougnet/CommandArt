@@ -2,10 +2,13 @@
 import {ref, computed, onMounted} from "vue";
 import {useCategoryStore} from "@/stores/categoryStore";
 import InputNoLabel from "@/components/InputNoLabel.vue";
-import {BookmarkPlus, BookmarkMinus, Bookmark} from "lucide-vue-next";
+import {BookmarkPlus, BookmarkMinus, Bookmark, BookmarkCheck, LoaderCircle} from "lucide-vue-next";
+import AddCategoryForm from "@/components/AddCategoryForm.vue";
 
 const categoryStore = useCategoryStore();
 const searchQuery = ref("");
+const isFetching = ref(false);
+const isAdding = ref(false);
 
 const categories = computed(() => {
   return categoryStore.categories.filter(category =>
@@ -19,14 +22,17 @@ const deleteCategory = (categoryId: number) => {
 };
 
 onMounted(() => {
-  categoryStore.fetchCategories();
+  isFetching.value = true;
+  categoryStore.fetchCategories().then(() => {
+    isFetching.value = false;
+  });
 });
 </script>
 
 <template>
   <h1 class="text-center fw-bold mt-4">Gérer les catégories <Bookmark :size="36" /></h1>
   <div class="container mt-3">
-    <div class="d-flex gap-2 flex-column flex-md-row">
+    <div class="d-flex gap-2 flex-column flex-md-row" v-if="!isAdding">
       <InputNoLabel
           label="Rechercher des catégories"
           placeholder="Rechercher des catégories"
@@ -34,13 +40,16 @@ onMounted(() => {
           type="text"
           :disabled="false"
           errors=""
-          v-model="searchQuery"
+          v-model.trim="searchQuery"
           class="flex-grow-1"
       />
-      <router-link to="/admin/category/add" class="btn btn-primary addCategory"><BookmarkPlus /> Ajouter une catégorie</router-link>
+      <p class="btn btn-primary addCategory m-0 d-flex justify-content-center align-items-center gap-2" @click="isAdding=true"><BookmarkPlus /> Ajouter une catégorie</p>
     </div>
-
-    <table class="table mt-3" v-if="categories.length">
+    <AddCategoryForm v-else @cancel-add-category="isAdding=false"/>
+    <p v-if="isFetching" class="text-center mt-3">
+      <LoaderCircle class="loaderSpin" /> Chargement des catégories...
+    </p>
+    <table class="table mt-3" v-else-if="categories.length">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -52,8 +61,9 @@ onMounted(() => {
       <tr v-for="(category, index) in categories" :key="category.id">
         <th scope="row">{{ index + 1 }}</th>
         <td>{{ category.name }}</td>
-        <td class="actions-column">
+        <td class="actions-column d-flex justify-content-center align-items-center gap-2">
           <button class="btn btn-danger" @click="deleteCategory(category.id)"><BookmarkMinus /> Supprimer</button>
+          <button class="btn btn-primary"><BookmarkCheck /> Modifier</button>
         </td>
       </tr>
       </tbody>
@@ -66,15 +76,14 @@ onMounted(() => {
 
 <style scoped>
 .actions-column {
-  width: 150px;
+  width: 300px;
   text-align: center;
 }
 
 .addCategory {
   background-color: #0f172a;
-  border: #0f172a;
+  border: 1px solid #0f172a;
   transition: opacity 0.3s;
-  height: 2.5rem;
 
   &:active {
     background-color: #0f172a;
@@ -82,6 +91,19 @@ onMounted(() => {
 
   &:hover {
     opacity: 0.9;
+  }
+}
+
+.loaderSpin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
   }
 }
 </style>

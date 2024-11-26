@@ -112,7 +112,7 @@ async function onSubmit(event: Event) {
 
   .submit {
     background-color: #0f172a;
-    border: #0f172a;
+    border: 1px solid #0f172a;
     transition: opacity 0.3s;
     margin-top: 5px;
     font-size: .875rem;

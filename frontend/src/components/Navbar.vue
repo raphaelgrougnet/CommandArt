@@ -57,7 +57,7 @@
 <style scoped>
 .login {
   background-color: #0f172a;
-  border: #0f172a;
+  border: 1px solid #0f172a;
   transition: opacity 0.3s;
 
   &:active {
