@@ -8,22 +8,24 @@ const { Op } = require('sequelize');
 
 exports.checkEmailExists = async (req, res, next) => {
     const {email} = req.body;
-    User.findOne({ where : { email: email }})
-        .then(user => {
-            if (!user) {
-                return res.status(200).json({message: 'Email non existant!'});
-            }
-            res.status(400).json({message: 'Email déjà utilisé!'});
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({message: 'Une erreur interne s\'est produite'});
-        });
+    try {
+        const userFound = await User.findOne({ where : { email: email }})
+
+        if (!userFound) {
+            return res.status(200).json({message: 'Email non existant!'});
+        }
+        res.status(400).json({message: 'Email déjà utilisé!'});
+    }
+    catch (err) {
+        res.status(500).json({message: 'Une erreur interne s\'est produite'});
+    }
+
 }
 
 exports.login = async (req, res, next) => {
+    const {username, password} = req.body;
+
     try {
-        const {username, password} = req.body;
         const user = await User.findOne({
             where: {
                 username: username
@@ -107,7 +109,7 @@ exports.register = async (req, res, next) => {
         );
 
         return res.status(201).json({
-            message: 'Utilisateur créé!',
+            message: 'Utilisateur créé.',
             user: userSaved,
             token: token
         });
