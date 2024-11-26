@@ -6,6 +6,7 @@ const isAdmin = require('../middleware/is-admin')
 
 router.get('/category', isAuth, categoryController.getCategories)
 router.post('/category', isAuth, isAdmin, categoryController.createCategory)
+router.put('/category/:id', isAuth, isAdmin, categoryController.updateCategory)
 router.delete('/category/:id', isAuth, isAdmin, categoryController.deleteCategory)
 
 module.exports = router
