@@ -18,11 +18,15 @@ CommandArt est une application qui permet de créer des commandes d'oeuvres d'ar
     ```bash
     npm install
     ```
-3. Créer la base de données MySQL avec le nom `commandart`
-4. Changer de répertoire pour le backend
+3. Changer de répertoire pour le backend
     ```bash
     cd backend
     ```
+4. Créer la base de données MySQL
+   ```bash
+   npx sequelize-cli db:create
+   ```
+
 5. Lancer la migration
     ```bash
     npx sequelize-cli db:migrate
