@@ -6,6 +6,21 @@ const validator = require('validator');
 const { User } = require('../models');
 const { Op } = require('sequelize');
 
+exports.getUser = async (req, res, next) => {
+    const {user} = req.jwt
+    try {
+        const userFound = await User.findOne({where : {id: user.id}});
+
+        if (!userFound) {
+            return res.status(404).json({message: 'Utilisateur inexistant.'});
+        }
+        res.status(200).json({user: userFound});
+    }
+    catch (err) {
+        res.status(500).json({message: 'Une erreur interne s\'est produite'});
+    }
+}
+
 exports.checkEmailExists = async (req, res, next) => {
     const {email} = req.body;
     try {
