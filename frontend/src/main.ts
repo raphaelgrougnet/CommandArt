@@ -12,7 +12,7 @@ import router from '@/router/router'
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(createPersistedState({
-    key: (storeKey) => `my-app-${storeKey}`,
+    key: (storeKey) => `command-art-${storeKey}`,
     storage: window.sessionStorage,
 }));
 
