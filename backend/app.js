@@ -3,6 +3,7 @@ const cors = require('cors');
 const config = require('./config');
 const { sequelize } = require('./models');
 const authRoutes = require('./routes/authRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 const app = express();
 
@@ -15,9 +16,10 @@ app.use(cors({
 }));
 
 app.use(authRoutes);
+app.use(categoryRoutes);
 
 app.listen(config.PORT, async () => {
-    console.log('Server is running on http://localhost:3000');
+    console.log('Server is running on http://localhost:' + config.PORT);
     await sequelize.authenticate();
     console.log('Database connected');
 });
