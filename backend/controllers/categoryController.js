@@ -1,5 +1,15 @@
 const { Category } = require('../models')
 
+exports.getCategories = async (req, res, next) => {
+    try {
+        const categories = await Category.findAll()
+        return res.status(200).json({categories: categories})
+    }
+    catch (err) {
+        return res.status(500).json({message: 'Une erreur interne s\'est produite'});
+    }
+}
+
 exports.createCategory = async (req, res, next) => {
     const { name } = req.body
     const regexNameCategory = /^[a-zA-Z0-9-_]{3,50}$/;
