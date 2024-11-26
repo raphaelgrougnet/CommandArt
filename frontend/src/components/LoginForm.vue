@@ -86,6 +86,7 @@ async function onSubmit(event: Event) {
           :disabled="false"
           :errors="errors.username"
           v-model.trim="username"
+          class="input"
       />
       <InputNoLabel
           label="Mot de passe"
@@ -95,6 +96,7 @@ async function onSubmit(event: Event) {
           :disabled="false"
           :errors="errors.password"
           v-model.trim="password"
+          class="input"
       />
       <button :disabled="isLoading" class="btn btn-primary w-100 submit d-flex justify-content-center align-items-center gap-2" @click="onSubmit">
         <LoaderCircle v-if="isLoading" class="loaderSpin" /> Se connecter
@@ -104,6 +106,10 @@ async function onSubmit(event: Event) {
 </template>
 
 <style scoped>
+  .input {
+    margin-top: 3px;
+  }
+
   .submit {
     background-color: #0f172a;
     border: #0f172a;

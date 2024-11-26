@@ -125,6 +125,7 @@ async function onSubmitInfos() {
             :errors="errors.email"
             v-model.trim="email"
             v-if="emailExists === null || emailExists"
+            class="input"
         />
         <InputNoLabel
             class="visually-hidden"
@@ -146,6 +147,7 @@ async function onSubmitInfos() {
             :disabled="false"
             :errors="errors.username"
             v-model.trim="username"
+            class="input"
         />
         <InputNoLabel
             label="Mot de passe"
@@ -155,6 +157,7 @@ async function onSubmitInfos() {
             :disabled="false"
             :errors="errors.password"
             v-model.trim="password"
+            class="input"
         />
         <InputNoLabel
             label="Confirmation du mot de passe"
@@ -164,6 +167,7 @@ async function onSubmitInfos() {
             :disabled="false"
             :errors="errors.passwordConfirmation"
             v-model.trim="passwordConfirmation"
+            class="input"
         />
       </div>
 
@@ -184,6 +188,10 @@ async function onSubmitInfos() {
 </template>
 
 <style scoped>
+  .input {
+    margin-top: 3px;
+  }
+
   .submit {
     background-color: #0f172a;
     border: #0f172a;
