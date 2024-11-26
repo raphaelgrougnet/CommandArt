@@ -8,7 +8,7 @@ import {UserPlus, Palette} from "lucide-vue-next";
     <div class="d-flex justify-content-between align-items-center w-100 ">
       <div class="d-flex justify-content-center align-items-center gap-2">
         <Palette/>
-        <h1 class="fs-4 m-0">CommandArt</h1>
+        <RouterLink :to="{name: 'home'}" class="fs-5 m-0 text-black text-decoration-none">CommandArt</RouterLink>
       </div>
       <RouterLink :to='{name: "register"}' class="btn signup d-flex justify-content-center align-items-center gap-2"><UserPlus /> Inscription</RouterLink>
     </div>
