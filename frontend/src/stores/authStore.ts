@@ -4,10 +4,11 @@ import {toast} from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import mitt from 'mitt';
 import type {User} from "@/types/User";
+import {useCategoryStore} from "@/stores/categoryStore";
 
 const emitter = mitt();
 
-const urlBase = "http://localhost:3000";
+const urlBase = "http://localhost:5000";
 
 export const useAuthStore = defineStore('auth',{
     state: () => ({
@@ -114,7 +115,43 @@ export const useAuthStore = defineStore('auth',{
             }
 
         },
+        async getCurrentUser() {
+            try{
+                const response = await fetch(`${urlBase}/currentUser`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    if (response.status === 500) {
+                        toast.error(`Erreur interne lors de la récupération de l'utilisateur`);
+                    }
+                    if (response.status === 404) {
+                        await this.logout();
+                    }
+                    else
+                        toast.error(`${response.status} : ${data.message}`);
+                    return;
+                }
+                this.currentUser = data.user;
+                return true;
+            }
+            catch (error) {
+                toast.error(`Une erreur est survenue lors de la récupération de l'utilisateur`);
+            }
+        },
+        async logout() {
+            const categoryStore = useCategoryStore();
 
+            this.isLogged = false;
+            this.currentUser = null;
+            this.token = null;
+            await categoryStore.logout();
+            emitter.emit('navigate', '/login');
+        },
 
     },
     persist: {
