@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {ref, computed, onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useCategoryStore} from "@/stores/categoryStore";
 import InputNoLabel from "@/components/InputNoLabel.vue";
-import {BookmarkPlus, Bookmark, Trash2, LoaderCircle, Pencil, PencilOff, Check} from "lucide-vue-next";
+import {Bookmark, BookmarkPlus, Check, LoaderCircle, Pencil, PencilOff, Trash2} from "lucide-vue-next";
 import AddCategoryForm from "@/components/AddCategoryForm.vue";
 import type {Category} from "@/types/Category";
 
@@ -83,7 +83,11 @@ onMounted(async () => {
           v-model.trim="searchQuery"
           class="flex-grow-1"
       />
-      <p class="btn btn-primary primaryBtn m-0 d-flex justify-content-center align-items-center gap-2" @click="isAdding=true"><BookmarkPlus /> Ajouter une catégorie</p>
+      <p class="btn btn-primary primaryBtn m-0 d-flex justify-content-center align-items-center gap-2"
+         @click="isAdding=true">
+        <BookmarkPlus/>
+        Ajouter une catégorie
+      </p>
     </div>
     <AddCategoryForm v-else @cancel-add-category="isAdding=false"/>
     <p v-if="isFetching" class="text-center mt-3">
@@ -114,14 +118,28 @@ onMounted(async () => {
         </td>
         <td class="actions-column" v-if="editingCategoryId !== category.id">
           <div class="d-flex justify-content-end align-items-center gap-2">
-            <button class="btn btn-primary primaryBtn" @click="startEditCategory(category.id, category.name)"><Pencil /> Modifier</button>
-            <button class="btn btn-secondary secondaryBtn" @click="deleteCategory(category.id)"><LoaderCircle class="loaderSpin" v-if="isDeleteLoading" /><Trash2 v-else /> Supprimer</button>
+            <button class="btn btn-primary primaryBtn" @click="startEditCategory(category.id, category.name)">
+              <Pencil/>
+              Modifier
+            </button>
+            <button class="btn btn-secondary secondaryBtn" @click="deleteCategory(category.id)">
+              <LoaderCircle v-if="isDeleteLoading" class="loaderSpin"/>
+              <Trash2 v-else/>
+              Supprimer
+            </button>
           </div>
         </td>
         <td class="actions-column" v-else>
           <div class="d-flex justify-content-end align-items-center gap-2">
-            <button class="btn btn-primary primaryBtn" @click="editCategory(category.id, category.name)"><LoaderCircle class="loaderSpin" v-if="isDeleteLoading" /><Check v-else/> Valider</button>
-            <button class="btn btn-secondary secondaryBtn" @click="cancelEditCategory(category)"><PencilOff /> Annuler</button>
+            <button class="btn btn-primary primaryBtn" @click="editCategory(category.id, category.name)">
+              <LoaderCircle v-if="isDeleteLoading" class="loaderSpin"/>
+              <Check v-else/>
+              Valider
+            </button>
+            <button class="btn btn-secondary secondaryBtn" @click="cancelEditCategory(category)">
+              <PencilOff/>
+              Annuler
+            </button>
           </div>
         </td>
       </tr>

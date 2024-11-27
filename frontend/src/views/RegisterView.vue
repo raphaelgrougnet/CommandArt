@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import RegisterForm from "@/components/RegisterForm.vue";
-import RegisterHeader from "@/components/RegisterHeader.vue";
-import {type Ref, ref} from "vue";
-import router from "@/router/router";
+  import RegisterForm from "@/components/RegisterForm.vue";
+  import RegisterHeader from "@/components/RegisterHeader.vue";
+  import {type Ref, ref} from "vue";
 
-const emailExists = ref(null) as Ref<boolean | null>
-const changeEmailExists = (exists: boolean) => {
-  emailExists.value = exists
-}
-
+  const emailExists = ref(null) as Ref<boolean | null>
+  const changeEmailExists = (exists: boolean) => {
+    emailExists.value = exists
+  }
 </script>
 
 <template>

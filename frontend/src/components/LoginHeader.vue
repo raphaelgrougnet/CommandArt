@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {UserPlus, Palette} from "lucide-vue-next";
-
+  import {UserPlus, Palette} from "lucide-vue-next";
 </script>
 
 <template>
@@ -17,7 +16,6 @@ import {UserPlus, Palette} from "lucide-vue-next";
       <h3 class="fw-normal">Saisissez votre nom d'utilisateur et mot de passe ci-dessous pour vous connecter</h3>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -46,5 +44,4 @@ import {UserPlus, Palette} from "lucide-vue-next";
     }
 
   }
-
 </style>

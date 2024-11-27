@@ -1,115 +1,115 @@
 <script setup lang="ts">
-import {LoaderCircle} from "lucide-vue-next";
-import InputNoLabel from "@/components/InputNoLabel.vue";
-import {ref} from "vue";
-import {useAuthStore} from "@/stores/authStore";
-import router from "@/router/router";
+  import {LoaderCircle} from "lucide-vue-next";
+  import InputNoLabel from "@/components/InputNoLabel.vue";
+  import {ref} from "vue";
+  import {useAuthStore} from "@/stores/authStore";
+  import router from "@/router/router";
 
-const props = defineProps<{
-  emailExists: boolean | null
-}>()
+  defineProps<{
+    emailExists: boolean | null
+  }>()
 
-const authStore = useAuthStore()
-const emit = defineEmits(['changeEmailExists'])
-const isLoading = ref(false)
-const email = ref("")
-const username = ref("")
-const password = ref("")
-const passwordConfirmation = ref("")
+  const authStore = useAuthStore()
+  const emit = defineEmits(['changeEmailExists'])
+  const isLoading = ref(false)
+  const email = ref("")
+  const username = ref("")
+  const password = ref("")
+  const passwordConfirmation = ref("")
 
-const errors = ref({
-  email: "",
-  username: "",
-  password: "",
-  passwordConfirmation: ""
-})
-
-function validateEmail() {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  errors.value.email = ""
-  if (!email.value || !emailRegex.test(email.value)) {
-    errors.value.email = "Veuillez saisir un email valide."
-    return false
-  }
-  return true
-}
-
-function validateUsername() {
-  const usernameRegex = /^[a-zA-Z0-9\-_ ]{3,50}$/;
-  errors.value.username = ""
-  if (!username.value || !usernameRegex.test(username.value)) {
-    errors.value.username = "Le nom d'utilisateur doit contenir entre 3 et 50 caractères alphanumériques, tirets ou espaces."
-    return false
-  }
-  return true
-}
-
-function validatePassword() {
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,}$/;
-  errors.value.password = ""
-  if (!password.value || !passwordRegex.test(password.value)) {
-    errors.value.password = "Le mot de passe doit contenir au moins une majuscule, un chiffre, un symbole et avoir au moins 8 caractères."
-    return false
-  }
-  return true
-}
-
-function validatePasswordConfirmation() {
-  errors.value.passwordConfirmation = ""
-  if (!passwordConfirmation.value || password.value !== passwordConfirmation.value) {
-    errors.value.passwordConfirmation = "Les mots de passe ne correspondent pas."
-    return false
-  }
-  return true
-}
-
-function validateForm() {
-  errors.value = {
+  const errors = ref({
     email: "",
     username: "",
     password: "",
-    passwordConfirmation: "",
+    passwordConfirmation: ""
+  })
+
+  function validateEmail() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    errors.value.email = ""
+    if (!email.value || !emailRegex.test(email.value)) {
+      errors.value.email = "Veuillez saisir un email valide."
+      return false
+    }
+    return true
   }
 
-  let hasError = false
-  if (!validateUsername()) {
-    hasError = true
+  function validateUsername() {
+    const usernameRegex = /^[a-zA-Z0-9\-_ ]{3,50}$/;
+    errors.value.username = ""
+    if (!username.value || !usernameRegex.test(username.value)) {
+      errors.value.username = "Le nom d'utilisateur doit contenir entre 3 et 50 caractères alphanumériques, tirets ou espaces."
+      return false
+    }
+    return true
   }
-  if (!validatePassword()) {
-    hasError = true
-  }
-  if (!validatePasswordConfirmation()) {
-    hasError = true
-  }
-  return !hasError
-}
 
-async function onSubmitEmail() {
-  isLoading.value = true
-  if (!validateEmail()) {
+  function validatePassword() {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,}$/;
+    errors.value.password = ""
+    if (!password.value || !passwordRegex.test(password.value)) {
+      errors.value.password = "Le mot de passe doit contenir au moins une majuscule, un chiffre, un symbole et avoir au moins 8 caractères."
+      return false
+    }
+    return true
+  }
+
+  function validatePasswordConfirmation() {
+    errors.value.passwordConfirmation = ""
+    if (!passwordConfirmation.value || password.value !== passwordConfirmation.value) {
+      errors.value.passwordConfirmation = "Les mots de passe ne correspondent pas."
+      return false
+    }
+    return true
+  }
+
+  function validateForm() {
+    errors.value = {
+      email: "",
+      username: "",
+      password: "",
+      passwordConfirmation: "",
+    }
+
+    let hasError = false
+    if (!validateUsername()) {
+      hasError = true
+    }
+    if (!validatePassword()) {
+      hasError = true
+    }
+    if (!validatePasswordConfirmation()) {
+      hasError = true
+    }
+    return !hasError
+  }
+
+  async function onSubmitEmail() {
+    isLoading.value = true
+    if (!validateEmail()) {
+      isLoading.value = false
+      return
+    }
+    const response = await authStore.checkEmailExists(email.value)
+    errors.value.email = response ? "Cet email est déjà utilisé." : ""
+    emit('changeEmailExists', response)
+
     isLoading.value = false
-    return
   }
-  const response = await authStore.checkEmailExists(email.value)
-  errors.value.email = response ? "Cet email est déjà utilisé." : ""
-  emit('changeEmailExists', response)
 
-  isLoading.value = false
-}
-
-async function onSubmitInfos() {
-  isLoading.value = true
-  if (!validateForm()) {
+  async function onSubmitInfos() {
+    isLoading.value = true
+    if (!validateForm()) {
+      isLoading.value = false
+      return
+    }
+    const success = await authStore.register(email.value, username.value, password.value)
     isLoading.value = false
-    return
-  }
-  const success = await authStore.register(email.value, username.value, password.value)
-  isLoading.value = false
-  if (success === true) {
-    await router.push({name: 'home'})
-  }
+    if (success === true) {
+      await router.push({name: 'home'})
+    }
 
-}
+  }
 </script>
 
 <template>

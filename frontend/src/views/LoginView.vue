@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LoginForm from "@/components/LoginForm.vue";
-import LoginHeader from "@/components/LoginHeader.vue";
+  import LoginForm from "@/components/LoginForm.vue";
+  import LoginHeader from "@/components/LoginHeader.vue";
 </script>
 
 <template>

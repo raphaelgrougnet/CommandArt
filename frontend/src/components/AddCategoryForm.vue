@@ -1,42 +1,39 @@
 <script setup lang="ts">
+  import InputNoLabel from "@/components/InputNoLabel.vue";
+  import {ref} from "vue";
+  import {Ban, BookmarkPlus, LoaderCircle} from "lucide-vue-next";
+  import {useCategoryStore} from "@/stores/categoryStore";
 
-import InputNoLabel from "@/components/InputNoLabel.vue";
-import {ref} from "vue";
-import {LoaderCircle, BookmarkPlus} from "lucide-vue-next";
-import {useCategoryStore} from "@/stores/categoryStore";
+  const emit = defineEmits(["cancelAddCategory"])
 
-const emit = defineEmits(["cancelAddCategory"])
+  const categoryStore = useCategoryStore();
 
-const categoryStore = useCategoryStore();
+  const regexNameCategory = /^[a-zA-Z0-9-_]{3,50}$/
+  const name = ref("");
+  const isLoading = ref(false);
+  const errors = ref({
+    name: ""
+  })
 
-const regexNameCategory = /^[a-zA-Z0-9-_]{3,50}$/
-const name = ref("");
-const isLoading = ref(false);
-const errors = ref({
-  name: ""
-})
-
-function validateName() {
-  if (!regexNameCategory.test(name.value)) {
-    errors.value.name = "Le nom de la catégorie doit contenir entre 3 et 50 caractères alphanumériques, tirets et underscores."
-    return false
+  function validateName() {
+    if (!regexNameCategory.test(name.value)) {
+      errors.value.name = "Le nom de la catégorie doit contenir entre 3 et 50 caractères alphanumériques, tirets et underscores."
+      return false
+    }
+    errors.value.name = ""
+    return true
   }
-  errors.value.name = ""
-  return true
-}
 
-async function onSubmit() {
-  if (!validateName()) {
-    return
+  async function onSubmit() {
+    if (!validateName()) {
+      return
+    }
+    isLoading.value = true;
+    await categoryStore.addCategory(name.value)
+    isLoading.value = false;
+    emit("cancelAddCategory")
+    name.value = "";
   }
-  isLoading.value = true;
-  await categoryStore.addCategory(name.value)
-  isLoading.value = false;
-  emit("cancelAddCategory")
-  name.value = "";
-}
-
-
 </script>
 
 <template>
@@ -58,13 +55,14 @@ async function onSubmit() {
         >
           <LoaderCircle v-if="isLoading" class="loaderSpin" /> <BookmarkPlus v-else /> Ajouter
         </button>
-        <button :disabled="isLoading" class="btn btn-secondary w-100 secondaryBtn" @click="emit('cancelAddCategory')">Annuler</button>
+        <button :disabled="isLoading" class="btn btn-secondary w-100 secondaryBtn" @click="emit('cancelAddCategory')">
+          <Ban/>
+          Annuler
+        </button>
       </div>
     </form>
     <span v-if="errors.name.length > 0" class="text-danger text-left w-100 errors">{{ errors.name }}</span>
   </div>
-
-
 </template>
 
 <style scoped>

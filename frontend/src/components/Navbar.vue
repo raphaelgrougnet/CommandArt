@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
+  import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
   import {useAuthStore} from "@/stores/authStore";
   import type {NavbarLinks} from "@/types/NavbarLinks";
   import {computed} from "vue";
@@ -21,16 +21,29 @@ import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
         <Palette/>
         <RouterLink :to="{name: 'home'}" class="navbar-brand">CommandArt</RouterLink>
       </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item" v-for="link in normalLinks">
-            <RouterLink :to="{name : link.route}" :class="link.isActive ? 'active nav-link' : 'nav-link'">{{link.name}}</RouterLink>
+            <RouterLink :to="{name : link.route}" :class="link.isActive ? 'active nav-link' : 'nav-link'">
+              {{link.name}}
+            </RouterLink>
           </li>
           <li class="nav-item dropdown" v-if="authStore.currentUser?.isAdmin">
-            <p :class="adminLinks.find(link => link.isActive) ? 'active nav-link dropdown-toggle m-0' : 'nav-link dropdown-toggle m-0'" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <p :class="adminLinks.find(link => link.isActive) ? 'active nav-link dropdown-toggle m-0' : 'nav-link dropdown-toggle m-0'"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false"
+            >
               Admin
             </p>
             <ul class="dropdown-menu">
@@ -39,7 +52,6 @@ import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
               </li>
             </ul>
           </li>
-
         </ul>
       </div>
       <div class="ms-auto d-flex justify-content-center align-items-center" v-if="authStore.isLogged">
@@ -47,8 +59,12 @@ import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
         <p class="m-0">{{authStore.currentUser?.username.toUpperCase()}}</p>
       </div>
       <div class="d-flex gap-2" v-else>
-        <RouterLink :to="{name: 'login'}" class="btn btn-primary primaryBtn d-flex justify-content-center align-items-center gap-2"><User />Connexion</RouterLink>
-        <RouterLink :to="{name: 'register'}" class="btn secondaryBtn d-flex justify-content-center align-items-center gap-2"><UserPlus />Inscription</RouterLink>
+        <RouterLink :to="{name: 'login'}" class="btn btn-primary primaryBtn d-flex justify-content-center align-items-center gap-2">
+          <User />Connexion
+        </RouterLink>
+        <RouterLink :to="{name: 'register'}" class="btn secondaryBtn d-flex justify-content-center align-items-center gap-2">
+          <UserPlus />Inscription
+        </RouterLink>
       </div>
     </div>
   </nav>

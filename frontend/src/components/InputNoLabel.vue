@@ -1,16 +1,15 @@
 <script setup lang="ts">
+  const props = defineProps<{
+    label: string,
+    placeholder: string,
+    name: string,
+    type: string,
+    disabled: boolean,
+    errors: string,
+    modelValue: string
+  }>()
 
-const props = defineProps<{
-  label: string,
-  placeholder: string,
-  name: string,
-  type: string,
-  disabled: boolean,
-  errors: string,
-  modelValue: string
-}>()
-
-const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
@@ -23,9 +22,8 @@ const emit = defineEmits(['update:modelValue'])
            :placeholder="props.placeholder"
            :disabled="props.disabled"
            :value="props.modelValue"
-           @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
+           @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)">
     <span v-if="errors.length > 0" class="text-danger text-left w-100 errors">{{ errors }}</span>
-
   </div>
 </template>
 
