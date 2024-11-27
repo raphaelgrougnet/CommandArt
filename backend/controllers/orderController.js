@@ -1,11 +1,13 @@
-const { Order, Category } = require('../models');
-const { Op } = require('sequelize');
+const { Order, Category, User } = require('../models');
 
 exports.getOrders = async (req, res, next) => {
     try {
         const orders = await Order.findAll({
             order: [['limitDate', 'ASC']],
-            include: [{ model: Category, as: 'category' }]
+            include: [
+                { model: Category, as: 'category' },
+                { model: User, as: 'user' }
+            ]
         });
 
         return res.status(200).json({orders: orders});

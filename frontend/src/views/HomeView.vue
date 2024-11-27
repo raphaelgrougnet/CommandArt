@@ -48,8 +48,8 @@
 
 <template>
   <Navbar :links="links"/>
-  <div class="container mt-5">
-    <h1 class="text-center">Liste des commandes</h1>
+  <div class="container mt-4">
+    <h1 class="text-center fw-bold ">Liste des commandes</h1>
   </div>
   <div class="card-grid container mt-5" v-if="isFetchOrderLoading">
     <CardOrderPlaceholder v-for="order in itemsPerPage" :key="order"/>

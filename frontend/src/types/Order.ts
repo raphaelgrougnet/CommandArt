@@ -1,4 +1,5 @@
 import type {Category} from "@/types/Category";
+import type {User} from "@/types/User";
 
 export interface Order {
     id: string;
@@ -10,4 +11,5 @@ export interface Order {
     maxRadius: number;
     createdAt: string;
     updatedAt: string;
+    user: User
 }

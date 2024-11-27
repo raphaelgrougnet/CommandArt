@@ -70,8 +70,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1 class="text-center fw-bold mt-4">Gérer les catégories <Bookmark :size="36" /></h1>
-  <div class="container mt-3">
+  <div class="container mt-5">
     <div class="d-flex gap-2 flex-column flex-md-row" v-if="!isAdding">
       <InputNoLabel
           label="Rechercher des catégories"

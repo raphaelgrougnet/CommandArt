@@ -21,6 +21,14 @@ module.exports = {
         type: DataTypes.FLOAT,
         allowNull: false
       },
+      limitDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
+      maxRadius: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
       categoryId: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -29,13 +37,13 @@ module.exports = {
           key: 'id'
         }
       },
-      limitDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-      },
-      maxRadius: {
-        type: DataTypes.FLOAT,
-        allowNull: false
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+        model: 'Users',
+        key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

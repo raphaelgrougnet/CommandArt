@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' });
+      this.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
     }
 
     toJSON() {
@@ -36,14 +37,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    categoryId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-              model: 'Category',
-              key: 'id'
-            }
-      },
     limitDate: {
       type: DataTypes.DATE,
       allowNull: false
@@ -51,6 +44,22 @@ module.exports = (sequelize, DataTypes) => {
     maxRadius: {
         type: DataTypes.FLOAT,
         allowNull: false
+    },
+    categoryId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Category',
+        key: 'id'
+      }
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
     },
   }, {
     sequelize,

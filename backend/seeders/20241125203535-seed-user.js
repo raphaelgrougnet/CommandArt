@@ -9,20 +9,20 @@ module.exports = {
                 username: 'user_admin',
                 email: 'admin@asp.ca',
                 password: '$2a$12$yCPQpr9OvET25/FE4zuLcOasrxgOxtDDYefzCTsiPbWo5TeLJ.x.m', // password: 'G@rn3@u!'
-                address: '123 Main St',
+                address: '601 avenue Baillairgé',
                 isAdmin: true,
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
             {
-            id: 'a815906d-7056-4869-aa4b-f83d4cf668cc',
-            username: 'user_a',
-            email: 'a@asp.ca',
-            password: '$2a$12$yCPQpr9OvET25/FE4zuLcOasrxgOxtDDYefzCTsiPbWo5TeLJ.x.m', // password: 'G@rn3@u!'
-            address: '123 Main St',
-            isAdmin: false,
-            createdAt: new Date(),
-            updatedAt: new Date()
+                id: 'a815906d-7056-4869-aa4b-f83d4cf668cc',
+                username: 'user_a',
+                email: 'a@asp.ca',
+                password: '$2a$12$yCPQpr9OvET25/FE4zuLcOasrxgOxtDDYefzCTsiPbWo5TeLJ.x.m', // password: 'G@rn3@u!'
+                address: '601 avenue Baillairgé',
+                isAdmin: false,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
               id: 'a815906d-7056-4869-aa4b-f83d4cf668cd',
