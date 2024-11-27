@@ -171,13 +171,13 @@ async function onSubmitInfos() {
         />
       </div>
 
-      <button :disabled="isLoading" class="btn btn-primary w-100 submit d-flex justify-content-center align-items-center gap-2"
+      <button :disabled="isLoading" class="btn btn-primary w-100 primaryBtn d-flex justify-content-center align-items-center gap-2"
               @click.prevent="onSubmitEmail"
               v-if="emailExists === null || emailExists"
       >
         <LoaderCircle v-if="isLoading" class="loaderSpin" /> S'inscrire avec le courriel
       </button>
-      <button :disabled="isLoading" class="btn btn-primary w-100 submit d-flex justify-content-center align-items-center gap-2"
+      <button :disabled="isLoading" class="btn btn-primary w-100 primaryBtn d-flex justify-content-center align-items-center gap-2"
               @click.prevent="onSubmitInfos"
               v-else
       >
@@ -192,25 +192,12 @@ async function onSubmitInfos() {
     margin-top: 3px;
   }
 
-  .submit {
-    background-color: #0f172a;
-    border: 1px solid #0f172a;
-    transition: opacity 0.3s;
+  .primaryBtn {
     margin-top: 5px;
-    font-size: .875rem;
-    height: 2.5rem;
+  }
 
-    &:active {
-      background-color: #0f172a;
-    }
-
-    &:hover {
-      opacity: 0.9;
-    }
-
-    .loaderSpin {
-      animation: spin 1s linear infinite;
-    }
+  .loaderSpin {
+    animation: spin 1s linear infinite;
   }
 
   @keyframes spin {

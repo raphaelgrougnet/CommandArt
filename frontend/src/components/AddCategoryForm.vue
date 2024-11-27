@@ -3,8 +3,11 @@
 import InputNoLabel from "@/components/InputNoLabel.vue";
 import {ref} from "vue";
 import {LoaderCircle, BookmarkPlus} from "lucide-vue-next";
+import {useCategoryStore} from "@/stores/categoryStore";
 
-defineEmits(["cancelAddCategory"])
+const emit = defineEmits(["cancelAddCategory"])
+
+const categoryStore = useCategoryStore();
 
 const regexNameCategory = /^[a-zA-Z0-9-_]{3,50}$/
 const name = ref("");
@@ -22,14 +25,15 @@ function validateName() {
   return true
 }
 
-function onSubmit() {
+async function onSubmit() {
   if (!validateName()) {
     return
   }
   isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 2000)
+  await categoryStore.addCategory(name.value)
+  isLoading.value = false;
+  emit("cancelAddCategory")
+  name.value = "";
 }
 
 
@@ -49,12 +53,12 @@ function onSubmit() {
           class="flex-grow-1"
       />
       <div class="d-flex gap-2">
-        <button :disabled="isLoading" class="btn btn-primary w-100 submit d-flex justify-content-center align-items-center gap-2"
+        <button :disabled="isLoading" class="btn btn-primary w-100 primaryBtn d-flex justify-content-center align-items-center gap-2"
                 @click.prevent="onSubmit"
         >
           <LoaderCircle v-if="isLoading" class="loaderSpin" /> <BookmarkPlus v-else /> Ajouter
         </button>
-        <button :disabled="isLoading" class="btn btn-secondary w-100 cancel" @click="$emit('cancelAddCategory')">Annuler</button>
+        <button :disabled="isLoading" class="btn btn-secondary w-100 secondaryBtn" @click="emit('cancelAddCategory')">Annuler</button>
       </div>
     </form>
     <span v-if="errors.name.length > 0" class="text-danger text-left w-100 errors">{{ errors.name }}</span>
@@ -64,36 +68,6 @@ function onSubmit() {
 </template>
 
 <style scoped>
-.submit {
-  background-color: #0f172a;
-  border: 1px solid #0f172a;
-  transition: opacity 0.3s;
-
-  &:active {
-    background-color: #0f172a;
-    border: 1px solid #0f172a;
-  }
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-
-.cancel {
-  background-color: transparent;
-  color: black;
-  transition: background-color 0.3s;
-
-  &:active {
-    color: black;
-    background-color: #f1f1f1;
-  }
-
-  &:hover {
-    background-color: #f1f1f1;
-  }
-}
-
 .errors {
   font-size: .75rem;
   margin-top: 3px;

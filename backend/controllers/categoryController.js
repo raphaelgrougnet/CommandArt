@@ -60,7 +60,7 @@ exports.updateCategory = async (req, res, next) => {
             name: name
         })
 
-        return res.status(200).json({message: "Catégorie modifiée.", category: category})
+        return res.status(200).json({category: category})
     }
     catch (err) {
         return res.status(500).json({message: 'Une erreur interne s\'est produite'});

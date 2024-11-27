@@ -9,5 +9,40 @@
 body {
   font-family: 'Lato', sans-serif !important;
   background-color: #fbfbfb;
+
+  .primaryBtn {
+    background-color: #0f172a !important;
+    border: 1px solid #0f172a !important;
+    transition: opacity 0.3s;
+
+    &:active {
+      border: 1px solid #0f172a !important;
+      background-color: #0f172a !important;
+    }
+
+    &:hover {
+      border: 1px solid #0f172a !important;
+      background-color: #0f172a !important;
+      opacity: 0.9;
+    }
+  }
+
+  .secondaryBtn {
+    background-color: transparent !important;
+    color: #0f172a !important;
+    border: 1px solid #0f172a !important;
+    transition: background-color 0.3s;
+
+    &:active {
+      color: #0f172a !important;
+      background-color: #f1f5f9 !important;
+    }
+
+    &:hover {
+      background-color: #f1f5f9 !important;
+    }
+  }
 }
+
+
 

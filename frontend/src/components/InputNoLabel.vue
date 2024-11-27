@@ -37,7 +37,7 @@ const emit = defineEmits(['update:modelValue'])
     justify-content: center;
 
     .form-control {
-      font-size: .875rem;
+      font-size: 1rem;
       height: 2.5rem;
     }
 

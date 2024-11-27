@@ -98,7 +98,7 @@ async function onSubmit(event: Event) {
           v-model.trim="password"
           class="input"
       />
-      <button :disabled="isLoading" class="btn btn-primary w-100 submit d-flex justify-content-center align-items-center gap-2" @click="onSubmit">
+      <button :disabled="isLoading" class="btn btn-primary w-100 primaryBtn d-flex justify-content-center align-items-center gap-2" @click="onSubmit">
         <LoaderCircle v-if="isLoading" class="loaderSpin" /> Se connecter
       </button>
     </form>
@@ -110,25 +110,12 @@ async function onSubmit(event: Event) {
     margin-top: 3px;
   }
 
-  .submit {
-    background-color: #0f172a;
-    border: 1px solid #0f172a;
-    transition: opacity 0.3s;
+  .primaryBtn {
     margin-top: 5px;
-    font-size: .875rem;
-    height: 2.5rem;
+  }
 
-    &:active {
-      background-color: #0f172a;
-    }
-
-    &:hover {
-      opacity: 0.9;
-    }
-
-    .loaderSpin {
-      animation: spin 1s linear infinite;
-    }
+  .loaderSpin {
+    animation: spin 1s linear infinite;
   }
 
   @keyframes spin {

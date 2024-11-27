@@ -62,10 +62,77 @@ export const useCategoryStore = defineStore('category', {
                         await authStore.logout();
                     }
                 }
-                this.categories.push(await response.json());
+
+                const responseToJson : {category: Category} = await response.json();
+
+                this.categories.push(responseToJson.category);
                 toast.success(`Catégorie ajoutée avec succès`);
             } catch (error) {
                 toast.error(`Une erreur est survenue lors de l'ajout de la catégorie`);
+            }
+        },
+        async deleteCategory(id: string) {
+            const authStore = useAuthStore();
+            try {
+                const foundUser = await authStore.getCurrentUser();
+                if (!foundUser) {
+                    return;
+                }
+                const response = await fetch(`${urlBase}/category/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authStore.token
+                    }
+                });
+                if (!response.ok) {
+                    if (response.status === 500) {
+                        toast.error(`Erreur interne lors de la suppression de la catégorie`);
+                    }
+                    if (response.status === 401) {
+                        await authStore.logout();
+                    }
+                }
+                this.categories = this.categories.filter((category) => category.id !== id);
+                toast.success(`Catégorie supprimée avec succès`);
+            } catch (error) {
+                toast.error(`Une erreur est survenue lors de la suppression de la catégorie`);
+            }
+        },
+        async editCategory(id: string, name: string) {
+            const authStore = useAuthStore();
+            try {
+                const foundUser = await authStore.getCurrentUser();
+                if (!foundUser) {
+                    return;
+                }
+                const response = await fetch(`${urlBase}/category/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authStore.token
+                    },
+                    body: JSON.stringify({name : name})
+                });
+                if (!response.ok) {
+                    if (response.status === 500) {
+                        toast.error(`Erreur interne lors de la modification de la catégorie`);
+                    }
+                    if (response.status === 401) {
+                        await authStore.logout();
+                    }
+                }
+                const responseToJson : {category: Category} = await response.json();
+
+                this.categories = this.categories.map((category) => {
+                    if (category.id === id) {
+                        return responseToJson.category;
+                    }
+                    return category;
+                });
+                toast.success(`Catégorie modifiée avec succès`);
+            } catch (error) {
+                toast.error(`Une erreur est survenue lors de la modification de la catégorie`);
             }
         },
         async logout() {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import {Palette, LogOut} from "lucide-vue-next";
+import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
   import {useAuthStore} from "@/stores/authStore";
   import type {NavbarLinks} from "@/types/NavbarLinks";
   import {computed} from "vue";
@@ -47,33 +47,15 @@
         <p class="m-0">{{authStore.currentUser?.username.toUpperCase()}}</p>
       </div>
       <div class="d-flex gap-2" v-else>
-        <RouterLink to="/login" class="btn btn-primary login">Connexion</RouterLink>
-        <RouterLink to="/register" class="btn register">Inscription</RouterLink>
+        <RouterLink :to="{name: 'login'}" class="btn btn-primary primaryBtn d-flex justify-content-center align-items-center gap-2"><User />Connexion</RouterLink>
+        <RouterLink :to="{name: 'register'}" class="btn secondaryBtn d-flex justify-content-center align-items-center gap-2"><UserPlus />Inscription</RouterLink>
       </div>
     </div>
   </nav>
 </template>
 
 <style scoped>
-.login {
-  background-color: #0f172a;
-  border: 1px solid #0f172a;
-  transition: opacity 0.3s;
-
-  &:active {
-    background-color: #0f172a;
+  .secondaryBtn{
+    border: none !important;
   }
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-
-.register {
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #d1d1d1;
-  }
-}
 </style>
