@@ -1,9 +1,14 @@
-const { Category } = require('../models')
+const { Category, Order } = require('../models')
 
 exports.getCategories = async (req, res, next) => {
     try {
-        const categories = await Category.findAll()
-        return res.status(200).json({categories: categories})
+        const categories = await Category.findAll({
+            include: [{
+                model: Order,
+                as: 'orders'
+            }]
+        });
+        return res.status(200).json({categories: categories});
     }
     catch (err) {
         return res.status(500).json({message: 'Une erreur interne s\'est produite'});
@@ -73,6 +78,11 @@ exports.deleteCategory = async (req, res, next) => {
         const category = await Category.findOne({ where: { id: id }})
         if (!category) {
             return res.status(404).json({message: "Catégorie introuvable."})
+        }
+
+        const ordersUsingCategory = await Order.findOne({ where: { categoryId: id }})
+        if (ordersUsingCategory) {
+            return res.status(400).json({message: "Impossible de supprimer la catégorie car elle est utilisée par une ou plusieurs commandes."})
         }
 
         await category.destroy()
