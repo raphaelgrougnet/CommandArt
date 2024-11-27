@@ -14,13 +14,13 @@ CommandArt est une application qui permet de créer des commandes d'oeuvres d'ar
     ```bash
     git clone https://github.com/raphaelgrougnet/CommandArt.git
     ```
-2. Installer les dépendances
-    ```bash
-    npm install
-    ```
-3. Changer de répertoire pour le backend
+2. Changer de répertoire pour le backend
     ```bash
     cd backend
+    ```
+3. Installer les dépendances
+    ```bash
+    npm install
     ```
 4. Créer la base de données MySQL
    ```bash
@@ -43,12 +43,16 @@ CommandArt est une application qui permet de créer des commandes d'oeuvres d'ar
     ```bash
     cd ../frontend
     ```
-9. Lancer le frontend
+9. Installer les dépendances
+    ```bash
+    npm install
+    ```
+10. Lancer le frontend
     ```bash
     npm run start
     ```
-10. (Optionnel) Prier pour que rien ne plante
-11. (Optionnel) Faire une offrande à la divinité de votre choix si tout fonctionne
+11. (Optionnel) Prier pour que rien ne plante
+12. (Optionnel) Faire une offrande à la divinité de votre choix si tout fonctionne
 
 ## Commandes disponibles
 

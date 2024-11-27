@@ -122,7 +122,7 @@ onMounted(async () => {
               <Pencil/>
               Modifier
             </button>
-            <button class="btn btn-secondary secondaryBtn" @click="deleteCategory(category.id)">
+            <button class="btn btn-secondary secondaryBtn" v-if="category.orders.length <= 0" @click="deleteCategory(category.id)">
               <LoaderCircle v-if="isDeleteLoading" class="loaderSpin"/>
               <Trash2 v-else/>
               Supprimer
@@ -131,12 +131,12 @@ onMounted(async () => {
         </td>
         <td class="actions-column" v-else>
           <div class="d-flex justify-content-end align-items-center gap-2">
-            <button class="btn btn-primary primaryBtn" @click="editCategory(category.id, category.name)">
-              <LoaderCircle v-if="isDeleteLoading" class="loaderSpin"/>
+            <button class="btn btn-primary primaryBtn" :disabled="isEditLoading" @click="editCategory(category.id, category.name)">
+              <LoaderCircle v-if="isEditLoading" class="loaderSpin"/>
               <Check v-else/>
               Valider
             </button>
-            <button class="btn btn-secondary secondaryBtn" @click="cancelEditCategory(category)">
+            <button class="btn btn-secondary secondaryBtn" :disabled="isEditLoading" @click="cancelEditCategory(category)">
               <PencilOff/>
               Annuler
             </button>
