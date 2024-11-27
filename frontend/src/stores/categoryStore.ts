@@ -58,9 +58,10 @@ export const useCategoryStore = defineStore('category', {
                     if (response.status === 500) {
                         toast.error(`Erreur interne lors de l'ajout de la catégorie`);
                     }
-                    if (response.status === 401) {
+                    if (response.status === 401  || response.status === 403) {
                         await authStore.logout();
                     }
+                    return
                 }
 
                 const responseToJson : {category: Category} = await response.json();
@@ -89,9 +90,10 @@ export const useCategoryStore = defineStore('category', {
                     if (response.status === 500) {
                         toast.error(`Erreur interne lors de la suppression de la catégorie`);
                     }
-                    if (response.status === 401) {
+                    if (response.status === 401  || response.status === 403) {
                         await authStore.logout();
                     }
+                    return
                 }
                 this.categories = this.categories.filter((category) => category.id !== id);
                 toast.success(`Catégorie supprimée avec succès`);
@@ -118,9 +120,10 @@ export const useCategoryStore = defineStore('category', {
                     if (response.status === 500) {
                         toast.error(`Erreur interne lors de la modification de la catégorie`);
                     }
-                    if (response.status === 401) {
+                    if (response.status === 401  || response.status === 403) {
                         await authStore.logout();
                     }
+                    return;
                 }
                 const responseToJson : {category: Category} = await response.json();
 

@@ -129,7 +129,7 @@ export const useAuthStore = defineStore('auth',{
                     if (response.status === 500) {
                         toast.error(`Erreur interne lors de la récupération de l'utilisateur`);
                     }
-                    if (response.status === 404) {
+                    if (response.status === 404 || response.status === 403 || response.status === 401) {
                         await this.logout();
                     }
                     else
