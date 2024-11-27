@@ -32,6 +32,7 @@ export const useCategoryStore = defineStore('category', {
                     if (response.status === 401) {
                         await authStore.logout();
                     }
+                    return;
                 }
                 const responseToJson = await response.json();
                 this.categories = responseToJson.categories;

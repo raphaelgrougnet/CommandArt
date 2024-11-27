@@ -134,3 +134,52 @@ exports.register = async (req, res, next) => {
     }
 };
 
+exports.updateUser = async (req, res, next) => {
+    const {user} = req.jwt;
+    const {username, address, password} = req.body;
+    const nameRegex = /^[a-zA-Z0-9\-_ ]{3,50}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,}$/;
+    const addressRegex = /^[0-9]{1,5} [a-zA-ZÀ-ÿ0-9\-_ ]{3,50}$/;
+
+    try {
+        const userConnected = await User.findOne({where: {id: user.id}});
+        if (!userConnected) {
+            return res.status(404).json({message: 'Utilisateur inexistant.'});
+        }
+
+        if (username && !nameRegex.test(username)) {
+            return res.status(400).json({message: 'Le nom d\'utilisateur doit contenir entre 3 et 50 caractères alphanumériques.'});
+        }
+
+        if (address && !addressRegex.test(address)) {
+            return res.status(400).json({message: 'L\'adresse doit contenir un numéro suivi d\'un nom de rue valide.'});
+        }
+
+        if (password && !passwordRegex.test(password)) {
+            return res.status(400).json({message: 'Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, un chiffre et un symbole.'});
+        }
+
+        if (username) {
+            userConnected.username = username;
+        }
+
+        if (address) {
+            userConnected.address = address;
+        }
+
+        if (password) {
+            userConnected.password = await bcrypt.hash(password, 12);
+        }
+
+        await userConnected.save();
+
+        const userUpdated = await User.findOne({where: {id: user.id}});
+
+        res.status(200).json({message: 'Utilisateur mis à jour.', user: userUpdated});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({message: 'Une erreur interne s\'est produite'});
+    }
+}
+

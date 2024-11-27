@@ -115,6 +115,41 @@ export const useAuthStore = defineStore('auth',{
             }
 
         },
+        async updateUser(username: string, address: string, password: string) {
+            try{
+                const response = await fetch(`${urlBase}/updateUser`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${this.token}`
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        address: address,
+                        password: password
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    if (response.status === 500) {
+                        toast.error(`Erreur interne lors de la mise à jour de l'utilisateur`);
+                    }
+                    if (response.status === 404 || response.status === 401) {
+                        await this.logout();
+                    }
+                    else{
+                        toast.error(`${response.status} : ${data.message}`);
+                    }
+                    return;
+                }
+                this.currentUser = data.user;
+                toast.success(`Utilisateur mis à jour`);
+                return true;
+            }
+            catch (error) {
+                toast.error(`Une erreur est survenue lors de la mise à jour de l'utilisateur`);
+            }
+        },
         async getCurrentUser() {
             try{
                 const response = await fetch(`${urlBase}/currentUser`, {

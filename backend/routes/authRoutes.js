@@ -7,4 +7,5 @@ router.post('/login', authController.login);
 router.post('/register', authController.register);
 router.post('/checkEmailExists', authController.checkEmailExists);
 router.get('/currentUser', isAuth, authController.getUser);
+router.put('/updateUser', isAuth, authController.updateUser);
 module.exports = router;

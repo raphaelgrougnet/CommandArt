@@ -11,6 +11,7 @@ body {
   background-color: #fbfbfb;
 
   .primaryBtn {
+    color: white;
     background-color: #0f172a !important;
     border: 1px solid #0f172a !important;
     transition: opacity 0.3s;
@@ -18,12 +19,14 @@ body {
     &:active {
       border: 1px solid #0f172a !important;
       background-color: #0f172a !important;
+      color: white !important;
     }
 
     &:hover {
       border: 1px solid #0f172a !important;
       background-color: #0f172a !important;
       opacity: 0.9;
+      color: white;
     }
   }
 
@@ -40,6 +43,35 @@ body {
 
     &:hover {
       background-color: #f1f5f9 !important;
+    }
+  }
+
+  .tertiaryBtn {
+    background-color: transparent !important;
+    color: #0f172a !important;
+    border: 1px solid transparent !important;
+    transition: background-color 0.3s;
+
+    &:active {
+      color: #0f172a !important;
+      background-color: #f1f5f9 !important;
+    }
+
+    &:hover {
+      background-color: #f1f5f9 !important;
+    }
+  }
+
+  .loaderSpin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform:rotate(0deg);
+    }
+    to {
+      transform:rotate(360deg);
     }
   }
 }

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-  import {Palette, LogOut, UserPlus, User} from "lucide-vue-next";
+  import {Palette , UserPlus, User} from "lucide-vue-next";
   import {useAuthStore} from "@/stores/authStore";
   import type {NavbarLinks} from "@/types/NavbarLinks";
   import {computed} from "vue";
+  import ModalUser from "@/components/ModalUser.vue";
 
   const authStore = useAuthStore();
 
@@ -53,18 +54,17 @@
             </ul>
           </li>
         </ul>
-      </div>
-      <div class="ms-auto d-flex justify-content-center align-items-center" v-if="authStore.isLogged">
-        <router-link to="/logout" class="btn"><LogOut /></router-link>
-        <p class="m-0">{{authStore.currentUser?.username.toUpperCase()}}</p>
-      </div>
-      <div class="d-flex gap-2" v-else>
-        <RouterLink :to="{name: 'login'}" class="btn btn-primary primaryBtn d-flex justify-content-center align-items-center gap-2">
-          <User />Connexion
-        </RouterLink>
-        <RouterLink :to="{name: 'register'}" class="btn secondaryBtn d-flex justify-content-center align-items-center gap-2">
-          <UserPlus />Inscription
-        </RouterLink>
+        <div class="ms-auto d-flex justify-content-center align-items-center gap-2" v-if="authStore.isLogged">
+          <ModalUser :user="authStore.currentUser" />
+        </div>
+        <div class="d-flex gap-2" v-else>
+          <RouterLink :to="{name: 'login'}" class="btn btn-primary primaryBtn d-flex justify-content-center align-items-center gap-2">
+            <User />Connexion
+          </RouterLink>
+          <RouterLink :to="{name: 'register'}" class="btn secondaryBtn d-flex justify-content-center align-items-center gap-2">
+            <UserPlus />Inscription
+          </RouterLink>
+        </div>
       </div>
     </div>
   </nav>

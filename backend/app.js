@@ -4,6 +4,7 @@ const config = require('./config');
 const { sequelize } = require('./models');
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cors({
 
 app.use(authRoutes);
 app.use(categoryRoutes);
+app.use(orderRoutes);
 
 app.listen(config.PORT, async () => {
     console.log('Server is running on http://localhost:' + config.PORT);

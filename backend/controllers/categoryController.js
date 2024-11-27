@@ -5,7 +5,8 @@ exports.getCategories = async (req, res, next) => {
         const categories = await Category.findAll({
             include: [{
                 model: Order,
-                as: 'orders'
+                as: 'orders',
+                attributes: { exclude: ['categoryId'] }
             }]
         });
         return res.status(200).json({categories: categories});
@@ -34,7 +35,13 @@ exports.createCategory = async (req, res, next) => {
             name: name
         })
 
-        const categorySaved = await Category.findOne({ where: { name: name }})
+        const categorySaved =
+            await Category.findOne({ where: { name: name },
+                include: [{
+                    model: Order,
+                    as: 'orders',
+                    attributes: { exclude: ['categoryId'] }
+                }] })
 
         return res.status(201).json({
             message: "Catégorie créée.",
@@ -65,7 +72,15 @@ exports.updateCategory = async (req, res, next) => {
             name: name
         })
 
-        return res.status(200).json({category: category})
+        const categoryUpdated =
+            await Category.findOne({ where: { id: id }, include: [{
+                    model: Order,
+                    as: 'orders',
+                    attributes: { exclude: ['categoryId'] }
+                }]
+            })
+
+        return res.status(200).json({category: categoryUpdated})
     }
     catch (err) {
         return res.status(500).json({message: 'Une erreur interne s\'est produite'});
